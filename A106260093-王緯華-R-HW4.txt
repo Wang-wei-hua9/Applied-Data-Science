@@ -1,0 +1,116 @@
+2020/11/27(五), 109學年第一學期 資料科學應用 R作業(4)
+
+學號:A106260093        姓名: 王緯華
+
+# (請依照規定)貼上執行程式碼及執行結果。
+詳見: R程式作業繳交方式
+http://www.hmwu.idv.tw/web/teaching/doc/R-how-homework.pdf
+
+
+> #ex2.24(a.1)
+> set.seed(123456)
+> score <- sample(1:100, 50, T)
+> my.test <- function(score){
++   
++   #成績及格人數達半數以上 (含)
++   pass <- length(which(score>=60))
++   all <- length(score)
++   pass >= (all/2)
++   #成績大於90分以上的
++   any(score>=90)
++   answer1 <- "本次成績不調分，平均為:"
++   average1 <- mean(score)
++   
++   
++   fail <- round((length(which(score<60))/length(score)),4)*100
++   answer2 <- "本次成績會調分, 不及格比例為:"
++   rate <- fail
++   
++   sprintf("%s%.0f", answer1, average1)
++   sprintf("%s%.0f", answer2, rate)
++   
++   answer3 <- ifelse(((pass >= (all/2))&any(score>=90)), sprintf("%s%.2f", answer1, average1), 
++                     sprintf("%s%.2f", answer2, rate)
++   )
++   
++   answer3
++ }
+> 
+> my.test(score)
+[1] "本次成績不調分，平均為:56.26"
+> 
+> #ex2.24(a.2)
+> set.seed(123456)
+> score1 <- sample(1:100, 150, T)
+> my.test1 <- function(score1){
++   
++   #成績及格人數達半數以上 (含)
++   pass.1 <- length(which(score1>=60))
++   all.1 <- length(score1)
++   pass.1 >= (all.1/2)
++   #成績大於90分以上的
++   any(score1>=90)
++   answer1.1 <- "本次成績不調分，平均為:"
++   average1.1 <- mean(score1)
++   
++   
++   fail.1 <- round((length(which(score1<60))/length(score1)),4)*100
++   answer2.1 <- "本次成績會調分, 不及格比例為:"
++   rate.1 <- fail.1
++   
++   sprintf("%s%.0f", answer1.1, average1.1)
++   sprintf("%s%.0f", answer2.1, rate.1)
++   
++   answer3.1 <- ifelse(((pass >= (all.1/2))&any(score1>=90)), sprintf("%s%.2f", answer1.1, average1.1), 
++                     sprintf("%s%.2f", answer2.1, rate.1)
++   )
++   
++   answer3.1
++ }
+> 
+> my.test1(score1)
+[1] "本次成績會調分, 不及格比例為:50.67"
+> 
+> #ex2.43(a1)  男生 175
+> ComputeWeight <- function(ComputeWeight){
++   sex <- readline(prompt="請輸入性別，男生或是女生? ")
++   high <- readline(prompt="請輸入身高(cm)? ")
++   high <- as.numeric(high)
++   
++   ComputeWeight <- if( sex == "男生"){
++     boy <- (high - 80)*0.7
++   }else{
++       girl <- (high - 70)*0.6
++       }
++   
++   #ComputeWeight
++   cat("您的身高的標準體重為",ComputeWeight,"公斤")
++   
++   }
+> 
+> ComputeWeight()
+請輸入性別，男生或是女生? 男生
+請輸入身高(cm)? 175
+您的身高的標準體重為 66.5 公斤
+> #ex2.43(a2)  女生 166
+> ComputeWeight <- function(ComputeWeight){
++   sex <- readline(prompt="請輸入性別，男生或是女生? ")
++   high <- readline(prompt="請輸入身高(cm)? ")
++   high <- as.numeric(high)
++   
++   ComputeWeight <- if( sex == "男生"){
++     boy <- (high - 80)*0.7
++   }else{
++     girl <- (high - 70)*0.6
++   }
++   
++   #ComputeWeight
++   cat("您的身高的標準體重為",ComputeWeight,"公斤")
++   
++ }
+> 
+> ComputeWeight()
+請輸入性別，男生或是女生? 女生
+請輸入身高(cm)? 166
+您的身高的標準體重為 57.6 公斤
+> 
