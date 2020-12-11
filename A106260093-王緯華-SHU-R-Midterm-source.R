@@ -93,6 +93,8 @@ x <- rep(-3:3)
 dnorm <- my_dnorm(x, 3, 2)
 my.dnorm <- my_dnorm(x, 3, 2)
 my.dnorm.table <-data.frame(x, dnorm, my.dnorm)
+my.dnorm.table
+
 
 
 
