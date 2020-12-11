@@ -1,0 +1,191 @@
+# 2020/12/11(五), 109學年第一學期 資料科學應用 R期中考
+
+學號: A106260093       姓名: 王緯華
+
+# (請依照規定)貼上執行程式碼及執行結果。
+詳見: R程式作業繳交方式
+http://www.hmwu.idv.tw/web/teaching/doc/R-how-homework.pdf
+
+> #ex.1
+> study <- function(x, y){
++   #x <- 13
++   #y <- 8
++   #預算限制式
++   Eng.hr <- x
++   #Eng.hr
++   Comp.hr <- y
++   #Comp.hr
++   Tuition <-  ((400*x) + (600*y) )
++   #Tuition
++   ifelse((limt <= 12000), limt, 0)
++   #limt
++   #效用函數
++   U <- sqrt(x)*sqrt(y)
++   #U
++   Fit <- ifelse(Tuition <=12000, "*"," ") 
++   
++   study.table <- data.frame(Eng.hr, Comp.hr, Tuition, U, Fit)
++   study.table
++ }
+> 
+> x <- rep(13:17, 5)
+> y <- rep(8:12,  each=5)
+> study(x, y)
+   Eng.hr Comp.hr Tuition        U Fit
+1      13       8   10000 10.19804   *
+2      14       8   10400 10.58301   *
+3      15       8   10800 10.95445   *
+4      16       8   11200 11.31371   *
+5      17       8   11600 11.66190   *
+6      13       9   10600 10.81665   *
+7      14       9   11000 11.22497   *
+8      15       9   11400 11.61895   *
+9      16       9   11800 12.00000   *
+10     17       9   12200 12.36932    
+11     13      10   11200 11.40175   *
+12     14      10   11600 11.83216   *
+13     15      10   12000 12.24745   *
+14     16      10   12400 12.64911    
+15     17      10   12800 13.03840    
+16     13      11   11800 11.95826   *
+17     14      11   12200 12.40967    
+18     15      11   12600 12.84523    
+19     16      11   13000 13.26650    
+20     17      11   13400 13.67479    
+21     13      12   12400 12.49000    
+22     14      12   12800 12.96148    
+23     15      12   13200 13.41641    
+24     16      12   13600 13.85641    
+25     17      12   14000 14.28286    
+> 
+> 
+> #ex.2(a)
+> library(readxl)
+> student_test <- read_excel("data/Score-109.xlsx",  na = "NA", skip=1)
+> student_test
+# A tibble: 75 x 3
+   ID    Calculus English
+   <chr>    <dbl>   <dbl>
+ 1 No.1        72      62
+ 2 No.2        88      97
+ 3 No.3        76      66
+ 4 No.4        89      51
+ 5 No.5        46      15
+ 6 No.6        16      87
+ 7 No.7        32      51
+ 8 No.8        51       0
+ 9 No.9        73       1
+10 No.10       99      14
+# ... with 65 more rows
+> #印出前後五筆資料
+> head(student_test, 5)
+# A tibble: 5 x 3
+  ID    Calculus English
+  <chr>    <dbl>   <dbl>
+1 No.1        72      62
+2 No.2        88      97
+3 No.3        76      66
+4 No.4        89      51
+5 No.5        46      15
+> tail(student_test, 5)
+# A tibble: 5 x 3
+  ID    Calculus English
+  <chr>    <dbl>   <dbl>
+1 No.71       69      96
+2 No.72       51     100
+3 No.73       37      50
+4 No.74       33      92
+5 No.75        4      37
+> 
+> 
+> #ex.2(b) 印出"請問有哪些同學兩科成績同時不及格
+> #將遺失值填入0
+> student_test[is.na(student_test)] <- 0
+> student_test
+# A tibble: 75 x 3
+   ID    Calculus English
+   <chr>    <dbl>   <dbl>
+ 1 No.1        72      62
+ 2 No.2        88      97
+ 3 No.3        76      66
+ 4 No.4        89      51
+ 5 No.5        46      15
+ 6 No.6        16      87
+ 7 No.7        32      51
+ 8 No.8        51       0
+ 9 No.9        73       1
+10 No.10       99      14
+# ... with 65 more rows
+> id <- which((student_test$Calculus+ student_test$English) < 60)
+> student_test[id, ]
+# A tibble: 15 x 3
+   ID    Calculus English
+   <chr>    <dbl>   <dbl>
+ 1 No.8        51       0
+ 2 No.11        3       0
+ 3 No.15       39       6
+ 4 No.18       40       0
+ 5 No.33       18       0
+ 6 No.35       37      21
+ 7 No.39        0      38
+ 8 No.45       26      32
+ 9 No.47        6      52
+10 No.48        4       9
+11 No.53       31      18
+12 No.54       21      28
+13 No.56       50       3
+14 No.68       15      21
+15 No.75        4      37
+> 
+> #ex.2(c) 寫相關係數函數
+> x1 <- student_test$Calculus
+> x2 <- student_test$English
+> 
+> my.cor <- function(x1, x2){
++   
++   # x1 <- 5
++   # x2 <- 10
++   x1.bar <- mean(x1)
++   x2.bar <- mean(x2)
++   
++   a <- sum((x1- x1.bar)*(x2 - x2.bar))
++   b <- sqrt(sum((x1- x1.bar)^2)) * sqrt(sum((x2 - x2.bar)^2))
++   ans <- a/b
++   ans
++ }
+> 
+> x1 <- student_test$Calculus
+> x2 <- student_test$English
+> my.cor(x1, x2)
+[1] -0.02334661
+> 
+> #ex.2(d) 計算微積分及英文兩成績之相關係數
+> x1 <- student_test$Calculus
+> x2 <- student_test$English
+> my.cor(x1, x2)
+[1] -0.02334661
+> 
+> cor(x1, x2)
+[1] -0.02334661
+> 
+> 
+> #ex.3(a)
+> my_dnorm <- function(x, u = 0, z = 1){
++   #x <- 1
++   #u <- 0
++   #z <- 1
++   e <- 2.718282
++   density <- (1/(sqrt(2*pi)*z))*e^(-(x-u)^2/2*z)
++   density
++   
++ }
+> my_dnorm(2.5, 3, 2)
+[1] 0.1553483
+> 
+> #ex.3(b)
+> x <- rep(-3:3)
+> dnorm <- my_dnorm(x, 3, 2)
+> my.dnorm <- my_dnorm(x, 3, 2)
+> my.dnorm.table <-data.frame(x, dnorm, my.dnorm)
+> 
+
