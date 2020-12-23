@@ -1,0 +1,219 @@
+2020/12/18(五), 109學年第一學期 資料科學應用 R作業(6)
+
+學號:A106260093        姓名: 王緯華
+
+# (請依照規定)貼上執行程式碼及執行結果。
+詳見: R程式作業繳交方式
+http://www.hmwu.idv.tw/web/teaching/doc/R-how-homework.pdf
+
+
+> #2.9(a) 用for找出number第100個偶數
+> set.seed(12345)
+> number <- sample(0:100, 1000, replace=T)
+> number_for <- function(x){
++   t <- 0
++   result <- 0
++   for(i in number){
++     if(i %% 2 == 0){
++       result <- result+1
++       t <- t+1
++     }
++     if(t>x)break
++     ans <- i
++     }
++   ans
++  }
+> number_for(100)
+[1] 62
+> 
+> #2.9(b) 用repeat找出number第100個偶數
+> set.seed(12345)
+> number <- sample(0:100, 1000, replace=T)
+> number_repeat <- function(x){
++   t <- 1
++   result <- 0
++   repeat{
++     if(t > x)break
++     result <- result +1 
++     t <- t+1
++   }
++   num.while <- which(number%% 2 == 0)
++   return(number[num.while[result]])
++ }
+> number_repeat(100)
+[1] 62
+> 
+> #2.9(c) 用while找出number第100個偶數
+> set.seed(12345)
+> number <- sample(0:100, 1000, replace=T)
+> number_while <- function(x){
++   t <- 1
++   result <- 0
++   while(t<x+1){
++     result <- result +1 
++     t <- t+1
++   }
++   #return(result)
++   num.while <- which(number%% 2 == 0)
++   return(number[num.while[result]])
++ }
+> number_while(100)
+[1] 62
+> 
+> 
+> #2.53
+> str(mtcars)
+'data.frame':	32 obs. of  11 variables:
+ $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+ $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
+ $ disp: num  160 160 108 258 360 ...
+ $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
+ $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+ $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
+ $ qsec: num  16.5 17 18.6 19.4 17 ...
+ $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
+ $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
+ $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
+ $ carb: num  4 4 1 1 2 1 4 2 2 4 ...
+> mtcars.data <-data.frame(mtcars$disp, mtcars$hp, mtcars$drat, mtcars$wt, mtcars$qsec)
+> mtcars.data.1 <- apply(mtcars.data, 2, mean)
+> mtcars.data.1
+mtcars.disp   mtcars.hp mtcars.drat   mtcars.wt mtcars.qsec 
+ 230.721875  146.687500    3.596563    3.217250   17.848750 
+> 
+> tdisp <- tapply(mtcars$cyl, mtcars$disp, mean)
+> tdisp
+ 71.1  75.7  78.7    79  95.1   108 120.1 120.3   121 140.8   145 146.7 
+    4     4     4     4     4     4     4     4     4     4     6     4 
+  160 167.6   225   258 275.8   301   304   318   350   351   360   400 
+    6     6     6     6     8     8     8     8     8     8     8     8 
+  440   460   472 
+    8     8     8 
+> thp <- tapply(mtcars$cyl, mtcars$hp, mean)
+> thp
+      52       62       65       66       91       93       95       97 
+4.000000 4.000000 4.000000 4.000000 4.000000 4.000000 4.000000 4.000000 
+     105      109      110      113      123      150      175      180 
+6.000000 4.000000 6.000000 4.000000 6.000000 8.000000 7.333333 8.000000 
+     205      215      230      245      264      335 
+8.000000 8.000000 8.000000 8.000000 8.000000 8.000000 
+> tdrat <-tapply(mtcars$cyl, mtcars$drat, mean)
+> tdrat
+    2.76     2.93        3     3.07     3.08     3.15     3.21     3.23 
+7.000000 8.000000 8.000000 8.000000 7.000000 8.000000 8.000000 8.000000 
+    3.54     3.62     3.69      3.7     3.73     3.77     3.85      3.9 
+8.000000 6.000000 4.000000 4.000000 8.000000 4.000000 4.000000 6.000000 
+    3.92     4.08     4.11     4.22     4.43     4.93 
+5.333333 4.000000 4.000000 6.000000 4.000000 4.000000 
+> twt <-tapply(mtcars$cyl, mtcars$wt, mean)
+> twt
+   1.513    1.615    1.835    1.935     2.14      2.2     2.32    2.465 
+4.000000 4.000000 4.000000 4.000000 4.000000 4.000000 4.000000 4.000000 
+    2.62     2.77     2.78    2.875     3.15     3.17     3.19    3.215 
+6.000000 6.000000 4.000000 6.000000 4.000000 8.000000 4.000000 6.000000 
+   3.435     3.44     3.46     3.52     3.57     3.73     3.78     3.84 
+8.000000 6.666667 6.000000 8.000000 8.000000 8.000000 8.000000 8.000000 
+   3.845     4.07     5.25    5.345    5.424 
+8.000000 8.000000 8.000000 8.000000 8.000000 
+> tqsec <-tapply(mtcars$cyl, mtcars$qsec, mean)
+> tqsec 
+ 14.5  14.6 15.41  15.5 15.84 16.46  16.7 16.87  16.9 17.02 17.05  17.3 
+    8     8     8     6     8     6     4     8     4     7     8     8 
+ 17.4 17.42  17.6 17.82 17.98    18  18.3 18.52  18.6 18.61  18.9 19.44 
+    8     8     8     8     8     8     6     4     4     4     5     6 
+19.47  19.9    20 20.01 20.22  22.9 
+    4     4     4     4     6     4 
+> #2.62(a)
+> computer.s <- function(x){
++   i <- sample(1:3, 1, replace = T)
++   if(i == 1){
++     cat("剪刀")
++   }else if(i == 2){
++     cat("石頭")
++   }else if(i == 3){
++     cat("布")
++   }
++ }
+> computer.s()
+石頭
+> #2.62(b)
+> player <- function(x){
++   j <- readline("請輸入你要出的拳頭(a: 剪刀, b: 石頭, c: 布, d: 不玩了):")
++   switch(j,
++          a = cat("玩家出:剪刀"),
++          b = cat("玩家出:石頭"),
++          c = cat("玩家出:布"),
++          d = cat("玩家:不玩了")
++   )
++ }
+> player()
+請輸入你要出的拳頭(a: 剪刀, b: 石頭, c: 布, d: 不玩了):a
+玩家出:剪刀
+> #2.62(c)
+> set.seed(12345)
+> game <- function(x){
++   #玩家出的結果
++   repeat{
++     player <- readline("請輸入你要出的拳頭(a: 剪刀, b: 石頭, c: 布, d: 不玩了):")
++     if(player == "d")break
++     output.1 <- switch(player,
++                        a = c("剪刀"),
++                        b = c("石頭"),
++                        c = c("布"),
++                        d = c("玩家:不玩了")
++     )
++     
++     #電腦出的結果
++     #set.seed(12345)
++     computer <- sample(1:3, 1, replace = T)
++     output.2 <- if(computer == 1){
++       c("剪刀")
++       }else if(computer == 2){
++       c("石頭")
++       }else if(computer == 3){
++       c("布")
++       }
++     
++     #判斷勝負
++     scissors <- c("平手", "輸", "贏")
++     stone <- c("贏", "平手", "輸")
++     five <- c("輸", "贏", "平手")
++     win.lose <- data.frame(scissors, stone, five)
++     rownames(win.lose) <- c("scissors","stone", "five")  
++     colnames(win.lose) <- c("a","b", "c")
++     #win.lose
++     
++     output.3 <- if((player == "a") & (computer == 1)){
++       win.lose[1,1]
++       }else if ((player == "a") & (computer == 2)){
++       win.lose[2,1]
++       }else if ((player == "a") & (computer == 3)){
++       win.lose[3,1]
++       }else if ((player == "b") & (computer == 1)){
++       win.lose[1,2]
++       }else if ((player == "b") & (computer == 2)){
++       win.lose[2,2]
++       }else if ((player == "b") & (computer == 3)){
++       win.lose[3,2]
++       }else if ((player == "c") & (computer == 1)){
++       win.lose[1,3]
++       }else if ((player == "c") & (computer == 2)){
++       win.lose[2,3]
++       }else if ((player == "c") & (computer == 3)){
++       win.lose[3,3]
++       }
++     #cat(output.3)
++     cat("電腦出[", output.2, "]", "你出[", output.1, "]", "你[", output.3, "]了")
++   }
++   cat("謝謝再會!")
++ }
+> game()
+請輸入你要出的拳頭(a: 剪刀, b: 石頭, c: 布, d: 不玩了):a
+電腦出[ 石頭 ] 你出[ 剪刀 ] 你[ 輸 ]了
+請輸入你要出的拳頭(a: 剪刀, b: 石頭, c: 布, d: 不玩了):b
+電腦出[ 布 ] 你出[ 石頭 ] 你[ 輸 ]了
+請輸入你要出的拳頭(a: 剪刀, b: 石頭, c: 布, d: 不玩了):c
+電腦出[ 石頭 ] 你出[ 布 ] 你[ 贏 ]了
+請輸入你要出的拳頭(a: 剪刀, b: 石頭, c: 布, d: 不玩了):d
+謝謝再會!
+> 
